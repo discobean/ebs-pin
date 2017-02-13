@@ -1,0 +1,28 @@
+#!/usr/bin/env python2.7
+from stapler import base, configuration
+import argparse, logging
+
+logging.basicConfig(level=logging.INFO)
+
+if __name__ == '__main__':
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-u', '--uuid', required=True, help='The UUID tag')
+
+    parser.add_argument('-d', '--device', default='/dev/xvdf', help='The device to use')
+    parser.add_argument('-s', '--size', default=10, type=int, help='The volume size')
+    parser.add_argument('-t', '--type', default='standard', help='The volume type')
+    parser.add_argument('-i', '--interval', default='daily', help='The snapshot interval')
+    parser.add_argument('-n', '--nopreserve', action='store_false', default=True, help="Don't Preserve the volume from deletion")
+
+
+    args = parser.parse_args()
+
+    c = configuration.Configuration()
+    metadata = c.metadata()
+
+    b = base.Base(args, metadata)
+
+    b.attach()
+
+          #Stapler::Base.new.attach(options, Stapler::Configuration.new.metadata)
