@@ -75,10 +75,9 @@ class Ec2:
                     VolumeType=volume_type
                 )
 
-            max = 12
             num = 0
             while True:
-                if num >= max:
+                if num >= 12:
                     break
 
                 state = self.client.describe_volumes(VolumeIds=[response['VolumeId']])['Volumes'][0]['State']
@@ -131,10 +130,9 @@ class Ec2:
                 Device=device
             )
 
-            max = 12
             num = 0
             while True:
-                if num >= max:
+                if num >= 12:
                     break
 
                 try:
