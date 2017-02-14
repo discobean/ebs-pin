@@ -1,6 +1,6 @@
 #!/usr/bin/env python2.7
 from stapler import base, configuration
-import argparse, logging
+import argparse, logging, sys
 
 logging.basicConfig(level=logging.INFO)
 
@@ -15,14 +15,24 @@ if __name__ == '__main__':
     parser.add_argument('-i', '--interval', default='daily', help='The snapshot interval')
     parser.add_argument('-n', '--nopreserve', action='store_false', default=True, help="Don't Preserve the volume from deletion")
 
+    parser.add_argument('-a', '--tags', nargs='+', default=None, help='List of AWS tags to add, e.g. Key1=Value1 Key2=Value2')
+
 
     args = parser.parse_args()
+
+    # convert tags Key=Value to dictionary
+    tags = {}
+    if args.tags:
+        for tag in args.tags:
+            key, value = tag.split('=')
+            tags[key] = value
+    args.tags = tags
 
     c = configuration.Configuration()
     metadata = c.metadata()
 
     b = base.Base(args, metadata)
 
-    b.attach()
-
-          #Stapler::Base.new.attach(options, Stapler::Configuration.new.metadata)
+    b.snapshot()
+    #b.attach()
+    #b.tag()

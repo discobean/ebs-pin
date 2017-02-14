@@ -14,7 +14,6 @@ class Base:
         self.ec2 = ec2.Ec2(self.session)
 
     def attach(self):
-        #name = ec2.get_instance_name(metadata[:instanceId]) || metadata[:instanceId]
         name = self.ec2.get_instance_name(self.metadata['instanceId']) or self.metadata['instanceId']
         volume_name = "%s-%s" % (name, self.options.device)
         logging.info("Volume name: %s" % volume_name)
@@ -27,12 +26,10 @@ class Base:
             logging.info("Checking volume is in same availability zone as instance...")
             if self.ec2.get_volume_region(volume_id) != self.metadata['availabilityZone']:
                 logging.info("Volume in another availability zone, snapshot required.")
-                """
-                if (snapshot_id = ec2.create_snapshot(volume_id))
-                    puts "Snapshot created: #{snapshot_id}"
-                    volume_id = nil
-                end
-                """
+                snapshot_id = ec2.create_snapshot(volume_id)
+                if snapshot_id:
+                    logging.info("Snapshot created: %s" % snapshot_id)
+                    volume_id = None
         else:
             snapshot_id = self.ec2.get_latest_snapshot_id(self.options.uuid)
             if snapshot_id:
@@ -63,25 +60,29 @@ class Base:
                 logging.info('Volume attachment failed.')
                 sys.exit(1)
 
+    def snapshot(self):
+        logging.info("Finding volumes...")
+        volumes = self.ec2.get_volume_id(self.metadata['instanceId'])
+
+        if len(volumes) > 0:
+            for volume_id in volumes:
+                logging.info("Creating snapshot for volume %s" % volume_id)
+                if self.ec2.create_snapshot(volume_id):
+                    logging.info("Volume %s snapshot created." % volume_id)
+                else:
+                    logging.error("Volume %s snapshot failed." % volume_id)
+        else:
+            logging.info("No volumes found")
 
     def tag(self):
-        """
-          ec2 = Stapler::Ec2.new(metadata[:region])
+        logging.info("Finding volumes...")
+        volumes = self.ec2.get_volume_id(self.metadata['instanceId'])
 
-          puts 'Finding volumes...'
-          if (volumes = ec2.get_volume_id(metadata[:instanceId]))
-            puts "Volumes found: #{volumes}"
-
-            volumes.each do |volume_id|
-              if ec2.tag_volume(volume_id, ec2.get_volume_name(volume_id), options)
-                puts "Volume #{volume_id} tagged."
-              else
-                puts 'Volume failed tagging.'
-              end
-            end
-          else
-            puts 'No volumes found.'
-            exit 1
-          end
-        """
-        pass
+        if len(volumes) > 0:
+            for volume_id in volumes:
+                if self.ec2.tag_volume(volume_id, self.ec2.get_volume_name(volume_id), self.options):
+                    logging.info("Volume %s tagged." % volume_id)
+                else:
+                    logging.error("Volume %s failed tagging." % volume_id)
+        else:
+            logging.info("No volumes found")
