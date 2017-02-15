@@ -62,21 +62,22 @@ class Base:
 
     def snapshot(self):
         logging.info("Finding volumes...")
-        volumes = self.ec2.get_volume_id(self.metadata['instanceId'])
+        volumes = self.ec2.get_volume_id(self.metadata['instanceId'], self.options.uuid)
 
         if len(volumes) > 0:
             for volume_id in volumes:
                 logging.info("Creating snapshot for volume %s" % volume_id)
-                if self.ec2.create_snapshot(volume_id):
+                if self.ec2.create_snapshot(volume_id, self.options.tags):
                     logging.info("Volume %s snapshot created." % volume_id)
                 else:
                     logging.error("Volume %s snapshot failed." % volume_id)
         else:
             logging.info("No volumes found")
 
+    # TODO test this method - should work?
     def tag(self):
         logging.info("Finding volumes...")
-        volumes = self.ec2.get_volume_id(self.metadata['instanceId'])
+        volumes = self.ec2.get_volume_id(self.metadata['instanceId'], self.options.uuid)
 
         if len(volumes) > 0:
             for volume_id in volumes:
@@ -86,3 +87,25 @@ class Base:
                     logging.error("Volume %s failed tagging." % volume_id)
         else:
             logging.info("No volumes found")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            #

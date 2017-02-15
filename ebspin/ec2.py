@@ -47,9 +47,10 @@ class Ec2:
         except:
             return None
 
-    def get_volume_id(self, instance_id):
+    def get_volume_id(self, instance_id, uuid):
         filters = [
-                { 'Name': 'attachment.instance-id', 'Values': [instance_id] }
+                { 'Name': 'attachment.instance-id', 'Values': [instance_id] },
+                { 'Name': 'tag:UUID', 'Values': [uuid] },
             ]
 
         try:
@@ -106,10 +107,14 @@ class Ec2:
             return None
 
 
-    def create_snapshot(self, volume_id):
+    def create_snapshot(self, volume_id, extra_tags=None):
         try:
             snapshot_id = self.client.create_snapshot(VolumeId=volume_id)['SnapshotId']
             tags = self.client.describe_volumes(VolumeIds=[volume_id])['Volumes'][0]['Tags']
+
+            if extra_tags:
+                for key, value in extra_tags.iteritems():
+                    tags.append({'Key':key, 'Value':value})
 
             self.tag_snapshot(snapshot_id, tags)
 
@@ -136,9 +141,7 @@ class Ec2:
         try:
             tags = [
                     { 'Key': 'Name',         'Value': volume_name },
-                    { 'Key': 'UUID',         'Value': options.uuid },
-                    { 'Key': 'SnapInterval', 'Value': options.interval },
-                    { 'Key': 'Detached',     'Value': str(not options.nopreserve).lower() }
+                    { 'Key': 'UUID',         'Value': options.uuid }
                 ]
 
             tags = [x for x in tags if x['Value'] is not None]
