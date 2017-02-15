@@ -18,7 +18,7 @@ Also has a method to create snapshots you can place in cron, and is able to tag 
 Attach a new or existing volume
 ```
 ebs-pin attach -h # Help!
-ebs-pin attach -u some-arbitrary-static-id --tags Team=DevOps Application=UnDevOpsLikeHost -s 10 -t gp2
+ebs-pin attach -u some-arbitrary-static-id -d /dev/xvdf -s 10 -t gp2 --tags Team=DevOps Application=UnDevOpsLikeHost 
 ```
 
 Snapshot the current attached volume
