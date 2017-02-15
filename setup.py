@@ -3,8 +3,8 @@ from setuptools import setup
 
 setup(
     name='ebs-pin',
-    version='0.2',
-    scripts=['scripts/ebs-pin'],
+    version='0.3',
+    scripts=['ebs-pin'],
     packages=['ebspin'],
     install_requires=[
         'appdirs>=1.4.0',
