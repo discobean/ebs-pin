@@ -1,5 +1,5 @@
 #!/usr/bin/env python2.7
-from stapler import base, configuration
+from ebspin import base, configuration
 import argparse, logging, sys
 
 logging.basicConfig(level=logging.INFO)
