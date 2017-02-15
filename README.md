@@ -29,8 +29,8 @@ ebs-pin snapshot -u some-arbitrary-static-id --tags SnappedTag=ChooseSomething
 
 ## Thanks to
 
-* This is almost line for line copy of stapler code in Ruby: https://github.com/mikelorant/stapler.git
-* A shout out goes to Gonz who thought of it originally: https://github.com/gservat
+* This is almost line for line copy of [stapler](https://github.com/mikelorant/stapler.git) code in Ruby
+* A shout out goes to [Gonz](https://github.com/gservat) who thought of it originally
 
 ## Build notes
 ````
