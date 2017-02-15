@@ -37,3 +37,8 @@ ebs-pin snapshot -u some-arbitrary-static-id --tags SnappedTag=ChooseSomething
 python setup.py sdist
 twine upload dist/*
 ````
+
+## TODO
+
+* Check if already mounted before attempting to run again
+* Delete old snapshot once snapshot succeeds, keep X snapshots
