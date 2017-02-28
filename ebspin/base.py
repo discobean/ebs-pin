@@ -26,7 +26,7 @@ class Base:
             logging.info("Checking volume is in same availability zone as instance...")
             if self.ec2.get_volume_region(volume_id) != self.metadata['availabilityZone']:
                 logging.info("Volume in another availability zone, snapshot required.")
-                snapshot_id = ec2.create_snapshot(volume_id)
+                snapshot_id = self.ec2.create_snapshot(volume_id)
                 if snapshot_id:
                     logging.info("Snapshot created: %s" % snapshot_id)
                     volume_id = None

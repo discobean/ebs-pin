@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='ebs-pin',
-    version='0.3.2',
+    version='0.3.3',
     scripts=['ebs-pin'],
     packages=['ebspin'],
     url='https://github.com/discobean/ebs-pin',
