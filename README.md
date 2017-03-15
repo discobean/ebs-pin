@@ -9,7 +9,7 @@ pip install ebs-pin
 * If EBS volume exists in same AZ as EC2 instance
   * Attaches it
 * If volume exists in another AZ, then
-  * Creates a volume from snapshot and attahces it
+  * Creates a volume from snapshot and attaches it
 * Otherwise, it creates a new volume and attaches it
 
 Also has a method to create snapshots you can place in cron, and is able to tag volumes
