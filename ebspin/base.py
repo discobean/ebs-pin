@@ -1,5 +1,5 @@
 import boto3, logging, sys
-import ec2
+import ebspin.ec2 as ec2
 
 class Base:
     options = None
