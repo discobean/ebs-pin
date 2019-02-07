@@ -1,4 +1,5 @@
 import time, logging, sys
+import aws_lambda_logging
 
 class Ec2:
     session = None
@@ -15,7 +16,7 @@ class Ec2:
             ]
         try:
             volumes = self.client.describe_volumes(Filters=filters)['Volumes']
-            volumes = sorted(volumes, key=lambda ss:ss['CreateTime']).pop()
+            volumes = sorted(volumes, key=lambda ss:ss['CreateTime'])
             volume = volumes.pop()
             print("Volume state is {}".format(volume['State']))
             return volume['VolumeId']
