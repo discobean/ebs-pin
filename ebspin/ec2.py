@@ -1,5 +1,4 @@
 import time, logging, sys
-import aws_lambda_logging
 
 class Ec2:
     session = None
