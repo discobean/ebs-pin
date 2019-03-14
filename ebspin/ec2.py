@@ -16,7 +16,8 @@ class Ec2:
         try:
             volumes = self.client.describe_volumes(Filters=filters)['Volumes']
             volumes = sorted(volumes, key=lambda ss:ss['CreateTime'])
-            volume = [x for x in volumes if x['State'] == 'available'].pop()
+            volume = volumes.pop()
+            print("Volume state is {}".format(volume['State']))
             return volume['VolumeId']
         except:
             return None
@@ -113,7 +114,7 @@ class Ec2:
             tags = self.client.describe_volumes(VolumeIds=[volume_id])['Volumes'][0]['Tags']
 
             if extra_tags:
-                for key, value in extra_tags.iteritems():
+                for key, value in extra_tags.items():
                     tags.append({'Key':key, 'Value':value})
 
             self.tag_snapshot(snapshot_id, tags)
@@ -147,7 +148,7 @@ class Ec2:
             tags = [x for x in tags if x['Value'] is not None]
 
             # Add the tags provided from the command line
-            for key, value in options.tags.iteritems():
+            for key, value in options.tags.items():
                 tags.append({'Key':key, 'Value':value})
 
             return self.client.create_tags(
