@@ -16,7 +16,8 @@ class Ec2:
         try:
             volumes = self.client.describe_volumes(Filters=filters)['Volumes']
             volumes = sorted(volumes, key=lambda ss:ss['CreateTime'])
-            volume = [x for x in volumes if x['State'] == 'available'].pop()
+            volume = volumes.pop()
+            print("Volume state is {}".format(volume['State']))
             return volume['VolumeId']
         except:
             return None
