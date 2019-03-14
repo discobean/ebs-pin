@@ -1,6 +1,11 @@
 # ebs-pin
 Pin EBS volumes to EC2 hosts.
 ```
+pip install ebs-pin3
+```
+
+Previous versions for 2.7 are available as
+```
 pip install ebs-pin
 ```
 
@@ -18,7 +23,7 @@ Also has a method to create snapshots you can place in cron, and is able to tag 
 Attach a new or existing volume
 ```
 ebs-pin attach -h # Help!
-ebs-pin attach -u some-arbitrary-static-id -d /dev/xvdf -s 10 -t gp2 --tags Team=DevOps Application=UnDevOpsLikeHost 
+ebs-pin attach -u some-arbitrary-static-id -d /dev/xvdf -s 10 -t gp2 --tags Team=DevOps Application=UnDevOpsLikeHost
 ```
 
 Snapshot the current attached volume
@@ -33,9 +38,9 @@ ebs-pin snapshot -u some-arbitrary-static-id --tags SnappedTag=ChooseSomething
 * A shout out goes to [Gonz](https://github.com/gservat) who thought of it originally
 
 ## Build notes
+To build and upload
 ````
-python setup.py sdist
-twine upload dist/*
+make upload
 ````
 
 ## TODO

@@ -2,8 +2,8 @@ from pip.req import parse_requirements
 from setuptools import setup
 
 setup(
-    name='ebs-pin',
-    version='0.3.3',
+    name='ebs-pin3',
+    version='0.3.4',
     scripts=['ebs-pin'],
     packages=['ebspin'],
     url='https://github.com/discobean/ebs-pin',
@@ -21,6 +21,5 @@ setup(
         'requests>=2.13.0',
         's3transfer>=0.1.10',
         'six>=1.10.0'],
-    keywords='ebs ebspin ebs-pin'
+    keywords='ebs ebspin ebs-pin ebspin3'
 )
-
